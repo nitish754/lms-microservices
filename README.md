@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # LMS Microservices Backend
 
 Monorepo for a Learning Management System (LMS) backend built with **Node.js + Express + TypeScript + Prisma + Postgres** and orchestrated via **Turborepo**.
@@ -148,3 +149,6 @@ Expected headers from API Gateway:
 - `x-user-id`
 - `x-user-role` (STUDENT | TEACHER | ADMIN | SYSTEM)
 - `x-user-email` (optional)
+=======
+# lms-microservices
+>>>>>>> 3e4e9fa0f06865d16c772ec7ba83ff66537a301f
