@@ -1,0 +1,35 @@
+{
+  "family": "bff-service",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/bff-service-task-role",
+  "containerDefinitions": [
+    {
+      "name": "bff-service",
+      "image": "<ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/bff-service:<TAG>",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 4010,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "SERVICE_NAME", "value": "bff-service" },
+        { "name": "PORT", "value": "4010" }
+      ],
+      "secrets": [  ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/bff-service",
+          "awslogs-region": "<REGION>",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}

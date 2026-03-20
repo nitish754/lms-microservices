@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Rating {
+  id        String   @id @default(uuid())
+  courseId  String
+  userId    String
+  stars     Int
+  comment   String?
+  createdAt DateTime @default(now())
+
+  @@unique([courseId, userId])
+}
+
+model HealthPing {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+}

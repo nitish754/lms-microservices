@@ -1,0 +1,35 @@
+{
+  "family": "comment-service",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/comment-service-task-role",
+  "containerDefinitions": [
+    {
+      "name": "comment-service",
+      "image": "<ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/comment-service:<TAG>",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 4005,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "SERVICE_NAME", "value": "comment-service" },
+        { "name": "PORT", "value": "4005" }
+      ],
+      "secrets": [ { "name": "DATABASE_URL", "valueFrom": "arn:aws:secretsmanager:<REGION>:<ACCOUNT_ID>:secret:comment-service/DATABASE_URL" } ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/comment-service",
+          "awslogs-region": "<REGION>",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ]
+}

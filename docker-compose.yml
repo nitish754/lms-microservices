@@ -1,0 +1,128 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: lms-postgres
+    environment:
+      POSTGRES_USER: nitjha2
+      POSTGRES_PASSWORD: Password@123
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./deploy/docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+
+  auth-service:
+    build:
+      context: .
+      dockerfile: services/auth-service/Dockerfile
+    environment:
+      SERVICE_NAME: auth-service
+      PORT: 4001
+      DATABASE_URL: postgres://nitjha2:Password%40123@postgres:5432/auth_service
+      JWT_SECRET: "B9zCDgAF3qfUUfbRcxTjAPmI6W51uRtM7CqQ3DrAllb"
+      ADMIN_EMAIL: Admin
+      ADMIN_PASSWORD: Password
+    ports:
+      - "4001:4001"
+    depends_on:
+      - postgres
+
+  user-service:
+    build:
+      context: .
+      dockerfile: services/user-service/Dockerfile
+    environment:
+      SERVICE_NAME: user-service
+      PORT: 4002
+      DATABASE_URL: postgres://nitjha2:Password%40123@postgres:5432/user_service
+    ports:
+      - "4002:4002"
+    depends_on:
+      - postgres
+
+  course-service:
+    build:
+      context: .
+      dockerfile: services/course-service/Dockerfile
+    environment:
+      SERVICE_NAME: course-service
+      PORT: 4003
+      DATABASE_URL: postgres://nitjha2:Password%40123@postgres:5432/course_service
+    ports:
+      - "4003:4003"
+    depends_on:
+      - postgres
+
+  content-service:
+    build:
+      context: .
+      dockerfile: services/content-service/Dockerfile
+    environment:
+      SERVICE_NAME: content-service
+      PORT: 4004
+      DATABASE_URL: postgres://nitjha2:Password%40123@postgres:5432/content_service
+    ports:
+      - "4004:4004"
+    depends_on:
+      - postgres
+
+  comment-service:
+    build:
+      context: .
+      dockerfile: services/comment-service/Dockerfile
+    environment:
+      SERVICE_NAME: comment-service
+      PORT: 4005
+      DATABASE_URL: postgres://nitjha2:Password%40123@postgres:5432/comment_service
+    ports:
+      - "4005:4005"
+    depends_on:
+      - postgres
+
+  rating-service:
+    build:
+      context: .
+      dockerfile: services/rating-service/Dockerfile
+    environment:
+      SERVICE_NAME: rating-service
+      PORT: 4006
+      DATABASE_URL: postgres://nitjha2:Password%40123@postgres:5432/rating_service
+    ports:
+      - "4006:4006"
+    depends_on:
+      - postgres
+
+  notification-service:
+    build:
+      context: .
+      dockerfile: services/notification-service/Dockerfile
+    environment:
+      SERVICE_NAME: notification-service
+      PORT: 4007
+      DATABASE_URL: postgres://nitjha2:Password%40123@postgres:5432/notification_service
+    ports:
+      - "4007:4007"
+    depends_on:
+      - postgres
+
+  bff-service:
+    build:
+      context: .
+      dockerfile: services/bff-service/Dockerfile
+    environment:
+      SERVICE_NAME: bff-service
+      PORT: 4010
+      COURSE_SERVICE_URL: http://course-service:4003
+      CONTENT_SERVICE_URL: http://content-service:4004
+      COMMENT_SERVICE_URL: http://comment-service:4005
+      RATING_SERVICE_URL: http://rating-service:4006
+    ports:
+      - "4010:4010"
+    depends_on:
+      - course-service
+      - content-service
+      - comment-service
+      - rating-service
+
+volumes:
+  pgdata:

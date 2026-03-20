@@ -1,0 +1,14 @@
+
+
+> @lms/user-service@0.1.0 build
+> prisma generate --schema=prisma/schema.prisma && tsc -p tsconfig.json
+
+[1G[0K[2mPrisma schema loaded from prisma/schema.prisma[22m
+
+✔ Generated [1mPrisma Client[22m (v5.22.0)[2m to ./prisma/generated/client[22m in 58ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Want to react to database changes in your app as they happen? Discover how with Pulse: https://pris.ly/tip-1-pulse
+
+[1G[0K⠙[1G[0K

@@ -1,0 +1,15 @@
+
+
+> @lms/auth-service@0.1.0 build
+> prisma generate --schema=prisma/schema.prisma && tsc -p tsconfig.json
+
+[1G[0K[2mEnvironment variables loaded from .env[22m
+[2mPrisma schema loaded from prisma/schema.prisma[22m
+
+✔ Generated [1mPrisma Client[22m (v5.22.0)[2m to ./prisma/generated/client[22m in 60ms
+
+Start by importing your Prisma Client (See: https://pris.ly/d/importing-client)
+
+Tip: Easily identify and fix slow SQL queries in your app. Optimize helps you enhance your visibility: https://pris.ly/--optimize
+
+[1G[0K⠙[1G[0K
